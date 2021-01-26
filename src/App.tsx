@@ -1,34 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Connection from './models/index';
-import Game from './models/game';
+import GameModel from './models/game';
+import Game from './lib/Game';
 
-async function loadGames(setGames: { (games: Game[]): void }) {
+async function loadGames(setGames: { (games: GameModel[]): void }) {
   const connection = await Connection;
-  const games = await connection.manager.find(Game);
+  const games = (await connection.manager.find(GameModel)).map((game) => ({
+    ...game,
+  }));
   setGames(games);
 }
 
 function saveGame(
   e: React.FormEvent<HTMLFormElement>,
-  games: Game[],
-  setGames: { (games: Game[]): void }
+  games: GameModel[],
+  setGames: { (games: GameModel[]): void }
 ) {
   console.log(e.target);
 }
 const Hello = () => {
-  const [games, setGames] = useState<Game[]>([]);
+  const [games, setGames] = useState<GameModel[]>([]);
   const [gameName, setGameName] = useState('');
   const [gamePath, setGamePath] = useState('');
   const [gamePlatform, setGamePlatform] = useState('');
-  loadGames(setGames).catch((e) => console.error(e));
+  useEffect(() => {
+    loadGames(setGames).catch((e) => console.error(e));
+  }, [true]);
   const gamesRendered = games.map((game) => (
-    <p key={game.name}>game.name + game.path + game.platform</p>
+    <p key={game.name}>{game.name + game.path + game.platform}</p>
   ));
   return (
     <div>
       <h2>Add Game</h2>
-      <form onSubmit={(e) => saveGame(e, games, setGames)}>
+      <form action="#" onSubmit={(e) => saveGame(e, games, setGames)}>
         Name:
         <input
           aria-label="Name"
@@ -52,7 +57,8 @@ const Hello = () => {
         />
         <button aria-label="submit" type="submit" />
       </form>
-      <h2>Library</h2>${gamesRendered}
+      <h2>Library</h2>
+      {gamesRendered}
     </div>
   );
 };

@@ -1,4 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, DeepPartial } from 'typeorm';
+
+export type GameRequired = Pick<Game, 'name' | 'path' | 'platform'> &
+  DeepPartial<Game>;
 
 @Entity()
 export default class Game {
