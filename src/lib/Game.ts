@@ -8,6 +8,17 @@ class Game implements GameModel {
     this.model = game;
   }
 
+  async update(gameDetails: Partial<GameModel>): Promise<Game> {
+    const connection = await Connection;
+    const updateEntity = connection.manager.create(GameModel, {
+      id: this.model.id,
+      ...gameDetails,
+    });
+    const game = await connection.manager.save(GameModel, updateEntity);
+    this.model = game;
+    return this;
+  }
+
   static async getAll(): Promise<Game[]> {
     const connection = await Connection;
     const games = await connection.manager.find(GameModel);

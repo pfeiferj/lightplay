@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Connection from './models/index';
-import GameModel from './models/game';
 import Game from './lib/Game';
 
-async function loadGames(setGames: { (games: GameModel[]): void }) {
-  const connection = await Connection;
-  const games = (await connection.manager.find(GameModel)).map((game) => ({
-    ...game,
-  }));
+async function loadGames(setGames: { (games: Game[]): void }) {
+  const games = await Game.getAll();
   setGames(games);
 }
 
-function saveGame(
-  e: React.FormEvent<HTMLFormElement>,
-  games: GameModel[],
-  setGames: { (games: GameModel[]): void }
+async function saveGame(
+  name: string,
+  path: string,
+  platform: string,
+  games: Game[],
+  setGames: { (games: Game[]): void }
 ) {
-  console.log(e.target);
+  const game = await Game.create({ name, path, platform });
+  setGames([...games, game]);
 }
 const Hello = () => {
-  const [games, setGames] = useState<GameModel[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
   const [gameName, setGameName] = useState('');
   const [gamePath, setGamePath] = useState('');
   const [gamePlatform, setGamePlatform] = useState('');
@@ -33,7 +31,12 @@ const Hello = () => {
   return (
     <div>
       <h2>Add Game</h2>
-      <form action="#" onSubmit={(e) => saveGame(e, games, setGames)}>
+      <form
+        action="#"
+        onSubmit={(e) =>
+          saveGame(gameName, gamePath, gamePlatform, games, setGames)
+        }
+      >
         Name:
         <input
           aria-label="Name"
