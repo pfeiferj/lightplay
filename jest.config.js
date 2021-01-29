@@ -17,7 +17,6 @@ module.exports = {
         filename: 'tests.html',
       },
     ],
-    'jest-github-reporter',
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'json-summary'],
   coverageThreshold: {
