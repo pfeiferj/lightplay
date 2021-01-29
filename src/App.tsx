@@ -24,7 +24,7 @@ const Hello = () => {
   const [gamePlatform, setGamePlatform] = useState('');
   useEffect(() => {
     loadGames(setGames).catch((e) => console.error(e));
-  }, [true]);
+  }, []);
   const gamesRendered = games.map((game) => (
     <p key={game.name}>{game.name + game.path + game.platform}</p>
   ));
@@ -33,7 +33,7 @@ const Hello = () => {
       <h2>Add Game</h2>
       <form
         action="#"
-        onSubmit={(e) =>
+        onSubmit={() =>
           saveGame(gameName, gamePath, gamePlatform, games, setGames)
         }
       >
