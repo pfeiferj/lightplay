@@ -22,9 +22,12 @@ jobs:
       - name: yarn install
         run: |
           yarn install --frozen-lockfile --network-timeout 300000
+
+      - name: yarn build
+        run: |
+          yarn build
       - name: yarn test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn build
           yarn test
