@@ -72,4 +72,46 @@ describe('#Game', () => {
       expect(games[0].name).toEqual('aoeu');
     });
   });
+
+  describe('.update', () => {
+    it('updates values for this game in the database', async () => {
+      expect.assertions(6);
+      const startGameCount = (await connection.manager.find(GameModel)).length;
+      expect(startGameCount).toEqual(0); // database should be clean
+
+      const game = await Game.create({ name: 'aoeu' });
+      const games = await connection.manager.find(GameModel);
+
+      expect(games.length).toEqual(1);
+      expect(games[0].name).toEqual('aoeu');
+
+      const originalId = game.id;
+
+      await game.update({ name: 'abcd' });
+
+      const gamesUpdated = await connection.manager.find(GameModel);
+
+      expect(gamesUpdated.length).toEqual(1);
+      expect(gamesUpdated[0].name).toEqual('abcd');
+      expect(gamesUpdated[0].id).toEqual(originalId);
+    });
+  });
+
+  describe('.getAll', () => {
+    it('gets all of the games in the database', async () => {
+      expect.assertions(5);
+      const startGameCount = (await connection.manager.find(GameModel)).length;
+      expect(startGameCount).toEqual(0); // database should be clean
+
+      await Game.create({ name: 'aoeu' });
+      const games = await connection.manager.find(GameModel);
+
+      expect(games.length).toEqual(1);
+      expect(games[0].name).toEqual('aoeu');
+
+      const allGames = await Game.getAll();
+      expect(allGames.length).toEqual(1);
+      expect(allGames[0].id).toEqual(games[0].id);
+    });
+  });
 });
