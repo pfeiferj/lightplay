@@ -13,7 +13,7 @@
     "start": "node -r @babel/register ./.erb/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ./.erb/scripts/BabelRegister ./src/main.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development webpack serve --config ./.erb/configs/webpack.config.renderer.dev.babel.js",
-    "test": "jest --coverage",
+    "test": "jest --coverage --run-in-band",
     "posttest": "jest-it-up"
   },
   "lint-staged": {
@@ -220,6 +220,7 @@
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.0.3",
+    "ts-jest": "^26.5.0",
     "typescript": "^4.0.5",
     "url-loader": "^4.1.0",
     "webpack": "^5.5.1",

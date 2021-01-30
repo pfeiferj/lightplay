@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, DeepPartial } from 'typeorm';
 
-export type GameRequired = Pick<Game, 'name' | 'installed'> & DeepPartial<Game>;
+export type GameRequired = Pick<Game, 'name'> & DeepPartial<Game>;
 // @TODO add join tables for: age_ratings,alternative_names,artworks,bundles,dlcs,expansions,external_games,franchises,game_engines,game_modes,genres,involved_companies,keywords,multiplayer_modes,platforms,player_perspectives,release_dates,screenshots,similar_games,standalone_expansions,tags,themes,videos,websites' \
 
 @Entity()
@@ -35,8 +35,8 @@ export default class Game {
   @Column('int', { nullable: true }) // ID?
   collection!: number;
 
-  @Column('int', { nullable: true }) // ID?
-  cover!: number;
+  @Column('text', { nullable: true })
+  cover!: string;
 
   @Column('int', { nullable: true })
   first_release_date!: number;

@@ -40,12 +40,104 @@ class Game implements GameModel {
     return this.model.name;
   }
 
+  get installed() {
+    return this.model.installed;
+  }
+
+  get igdb_id() {
+    return this.model.igdb_id;
+  }
+
   get path() {
     return this.model.path;
   }
 
-  get platform() {
-    return this.model.platform;
+  get aggregated_rating() {
+    return this.model.aggregated_rating;
+  }
+
+  get aggregated_rating_count() {
+    return this.model.aggregated_rating_count;
+  }
+
+  get category() {
+    return this.model.category;
+  }
+
+  get checksum() {
+    return this.model.checksum;
+  }
+
+  get collection() {
+    return this.model.collection;
+  }
+
+  get cover() {
+    return this.model.cover;
+  }
+
+  get first_release_date() {
+    return this.model.first_release_date;
+  }
+
+  get follows() {
+    return this.model.follows;
+  }
+
+  get franchise() {
+    return this.model.franchise;
+  }
+
+  get hypes() {
+    return this.model.hypes;
+  }
+
+  get parent_game() {
+    return this.model.parent_game;
+  }
+
+  get rating() {
+    return this.model.rating;
+  }
+
+  get rating_count() {
+    return this.model.rating_count;
+  }
+
+  get slug() {
+    return this.model.slug;
+  }
+
+  get status() {
+    return this.model.status;
+  }
+
+  get storyline() {
+    return this.model.storyline;
+  }
+
+  get summary() {
+    return this.model.summary;
+  }
+
+  get total_rating() {
+    return this.model.total_rating;
+  }
+
+  get total_rating_count() {
+    return this.model.total_rating_count;
+  }
+
+  get url() {
+    return this.model.url;
+  }
+
+  get version_parent() {
+    return this.model.version_parent;
+  }
+
+  get version_title() {
+    return this.model.version_title;
   }
 }
 
