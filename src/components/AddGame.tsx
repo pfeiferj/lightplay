@@ -8,9 +8,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Input from '@material-ui/core/Input';
+import Game from '../lib/Game';
 
 export default function AddGame() {
   const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState('');
+  const [path, setPath] = React.useState(undefined);
+  const [cover, setCover] = React.useState(undefined);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,6 +22,11 @@ export default function AddGame() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const addGame = async () => {
+    await Game.create({ name, path, cover });
+    handleClose();
   };
 
   return (
@@ -36,16 +45,36 @@ export default function AddGame() {
             margin="dense"
             id="name"
             label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             type="text"
             fullWidth
           />
-          Game: <Input type="file" />
+          Game:{' '}
+          <Input
+            type="file"
+            // eslint-disable-next-line
+            // @ts-ignore // electron adds file variable
+            onChange={(e) => setPath(e.target.files[0].path)}
+          />
           <br />
-          Cover: <Input type="file" />
+          Cover:{' '}
+          <Input
+            type="file"
+            // eslint-disable-next-line
+            // @ts-ignore // electron adds file variable
+            onChange={(e) => setCover(e.target.files[0].path)}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} variant="contained" color="primary">
+          <Button
+            onClick={() => {
+              addGame();
+            }}
+            variant="contained"
+            color="primary"
+          >
             Add
           </Button>
         </DialogActions>
