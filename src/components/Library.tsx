@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Game from '../lib/Game';
 import GameComponent from './Game';
+import AddGame from './AddGame';
 
 async function loadGames(setGames: { (games: Game[]): void }) {
   const games = await Game.getAll();
@@ -15,5 +16,10 @@ export default function Library() {
   const gamesRendered = games.map((game) => (
     <GameComponent key={`game-${game.id}`} gameModel={game} />
   ));
-  return <div>{gamesRendered}</div>;
+  return (
+    <div>
+      <AddGame />
+      {gamesRendered}
+    </div>
+  );
 }
