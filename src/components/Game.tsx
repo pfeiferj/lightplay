@@ -1,14 +1,21 @@
 import React from 'react';
-import GameModel from '../lib/Game';
+import GameWrapper from '../lib/Game';
 
-export default function Game(props: { gameModel: GameModel }) {
-  const { gameModel } = props;
-  if (gameModel.cover) {
+export default function Game(props: { game: GameWrapper }) {
+  const { game } = props;
+
+  const launchGame = () => {
+    game.launch();
+  };
+
+  if (game.cover) {
     return (
       <div>
-        <img aria-label={gameModel.name} src={gameModel.cover} />
+        <img aria-label={game.name} src={game.cover} />
       </div>
     );
   }
-  return <div>{gameModel.name}</div>;
+  // @TODO temporary interaction, add launch button
+  // eslint-disable-next-line
+  return <div onClick={launchGame}>{game.name}</div>;
 }

@@ -1,11 +1,17 @@
 import GameModel, { GameRequired } from '../models/game';
 import Connection from '../models/index';
+import Platform from './Platform';
 
 class Game implements GameModel {
   model: GameModel;
 
+  platformWrapper?: Promise<Platform | null>;
+
   constructor(game: GameModel) {
     this.model = game;
+    if (this.platform) {
+      this.platformWrapper = Platform.get(this.platform);
+    }
   }
 
   async update(gameDetails: Partial<GameModel>): Promise<Game> {
@@ -17,6 +23,15 @@ class Game implements GameModel {
     const game = await connection.manager.save(GameModel, updateEntity);
     this.model = game;
     return this;
+  }
+
+  async launch(): Promise<void> {
+    if (this.platformWrapper) {
+      const platform = await this.platformWrapper;
+      if (platform) {
+        platform.launchGame(this);
+      }
+    }
   }
 
   static async getAll(): Promise<Game[]> {
@@ -40,8 +55,8 @@ class Game implements GameModel {
     return this.model.name;
   }
 
-  get installed() {
-    return this.model.installed;
+  get platform() {
+    return this.model.platform;
   }
 
   get igdb_id() {

@@ -11,6 +11,12 @@ export default class Platform {
   @Column('text')
   name!: string;
 
+  @Column('text', { nullable: true })
+  path!: string;
+
+  @Column('text', { nullable: true })
+  arguments!: string;
+
   @Column('int', { nullable: true })
   igdb_id!: number;
 
@@ -32,8 +38,8 @@ export default class Platform {
   @Column('int', { nullable: true }) // ID?
   platform_family!: number;
 
-  @Column('int', { nullable: true }) // ID?
-  platform_logo!: number;
+  @Column('text', { nullable: true })
+  platform_logo!: string;
 
   @Column('text', { nullable: true })
   slug!: string;

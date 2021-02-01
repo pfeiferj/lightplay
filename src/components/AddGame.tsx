@@ -1,21 +1,35 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
 import Game from '../lib/Game';
+import Platform from '../lib/Platform';
 
 export default function AddGame() {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState('');
-  const [path, setPath] = React.useState(undefined);
-  const [cover, setCover] = React.useState(undefined);
+  const [path, setPath] = React.useState<string | null>(null);
+  const [cover, setCover] = React.useState<string | null>(null);
+  const [platforms, setPlatforms] = React.useState<Platform[]>([]);
+  const [selectedPlatform, setSelectedPlatform] = React.useState<number | null>(
+    null
+  );
 
+  React.useEffect(() => {
+    Platform.getAll()
+      .then((platformModels) => setPlatforms(platformModels))
+      .catch((e) => {
+        console.error(e);
+      });
+  }, []);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -25,7 +39,12 @@ export default function AddGame() {
   };
 
   const addGame = async () => {
-    await Game.create({ name, path, cover });
+    await Game.create({
+      name,
+      path: path || undefined,
+      cover: cover || undefined,
+      platform: selectedPlatform || undefined,
+    });
     handleClose();
   };
 
@@ -65,6 +84,23 @@ export default function AddGame() {
             // @ts-ignore // electron adds file variable
             onChange={(e) => setCover(e.target.files[0].path)}
           />
+          <FormControl fullWidth>
+            <InputLabel id="PlatformLabel">Platform</InputLabel>
+            <Select
+              labelId="PlatformLabel"
+              id="platform"
+              value={selectedPlatform}
+              onChange={(e) =>
+                setSelectedPlatform(parseInt(e.target.value as string, 10))
+              }
+            >
+              {platforms.map((platform) => (
+                <MenuItem key={`platform-${platform.id}`} value={platform.id}>
+                  {platform.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

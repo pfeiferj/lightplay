@@ -11,8 +11,8 @@ export default class Game {
   @Column('text')
   name!: string;
 
-  @Column('boolean', { default: false })
-  installed!: boolean;
+  @Column('int', { nullable: true })
+  platform!: number;
 
   @Column('int', { nullable: true })
   igdb_id!: number;

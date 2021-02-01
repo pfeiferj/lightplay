@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Game from '../lib/Game';
 import GameComponent from './Game';
+import AddPlatform from './AddPlatform';
 import AddGame from './AddGame';
 
 async function loadGames(setGames: { (games: Game[]): void }) {
@@ -14,11 +15,12 @@ export default function Library() {
     loadGames(setGames).catch((e) => console.error(e));
   }, []);
   const gamesRendered = games.map((game) => (
-    <GameComponent key={`game-${game.id}`} gameModel={game} />
+    <GameComponent key={`game-${game.id}`} game={game} />
   ));
   return (
     <div>
       <AddGame />
+      <AddPlatform />
       {gamesRendered}
     </div>
   );
