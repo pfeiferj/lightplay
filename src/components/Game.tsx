@@ -3,15 +3,15 @@ import Card from '@material-ui/core/Card';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import makeStyles from '@material-ui/styles/makeStyles';
+import { useSelector } from 'react-redux';
 import GameWrapper from '../lib/Game';
+import type { State } from '../redux/store';
 
-type Int = number;
 interface GameProps {
   game: GameWrapper;
-  sizeMultiplier: Int; // eslint-disable-line react/no-unused-prop-types
 }
 
-const useStyles = makeStyles<unknown, GameProps>(() => {
+const useStyles = makeStyles<unknown, { sizeMultiplier: number }>(() => {
   return {
     Card: {
       float: 'left',
@@ -44,7 +44,10 @@ const useStyles = makeStyles<unknown, GameProps>(() => {
 
 export default function Game(props: GameProps) {
   const { game } = props;
-  const styles = useStyles(props);
+  const sizeMultiplier = useSelector<State, number>((state) => {
+    return state.elementSize.value;
+  });
+  const styles = useStyles({ sizeMultiplier });
 
   const launchGame = () => {
     game.launch();

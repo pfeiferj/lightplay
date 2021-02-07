@@ -10,20 +10,13 @@ async function loadGames(setGames: { (games: Game[]): void }) {
 
 export default function Library() {
   const [games, setGames] = useState<Game[]>([]);
+
   useEffect(() => {
     loadGames(setGames).catch((e) => console.error(e));
   }, []);
-  const [sizeMultiplier, setSizeMultiplier] = useState(2);
+
   const gamesRendered = games.map((game) => (
-    <GameComponent
-      key={`game-${game.id}`}
-      game={game}
-      sizeMultiplier={sizeMultiplier}
-    />
+    <GameComponent key={`game-${game.id}`} game={game} />
   ));
-  return (
-    <Layout sizeUpdate={setSizeMultiplier} name="Library">
-      {gamesRendered}
-    </Layout>
-  );
+  return <Layout name="Library">{gamesRendered}</Layout>;
 }

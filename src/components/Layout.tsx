@@ -4,20 +4,16 @@ import TopBar from './TopBar';
 interface LayoutProps {
   children: React.ReactNode;
   name: string;
-  sizeUpdate?: { (sizeMultiplier: number): void };
 }
 
 const Layout: React.FunctionComponent<LayoutProps> = (props: LayoutProps) => {
-  const { children, name, sizeUpdate } = props;
+  const { children, name } = props;
   return (
     <div>
-      <TopBar name={name} sizeUpdate={sizeUpdate} />
+      <TopBar name={name} />
       {children}
     </div>
   );
-};
-Layout.defaultProps = {
-  sizeUpdate: () => {},
 };
 
 export default Layout;

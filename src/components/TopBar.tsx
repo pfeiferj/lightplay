@@ -4,8 +4,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import makeStyles from '@material-ui/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import { useDispatch, useSelector } from 'react-redux';
+import { update as updateElementSize } from '../redux/elementSize';
 import AddGame from './AddGame';
 import AddPlatform from './AddPlatform';
+import type { State } from '../redux/store';
 
 const useStyles = makeStyles({
   Divider: {
@@ -25,20 +28,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TopBar(props: {
-  name: string;
-  sizeUpdate?: { (sizeMultiplier: number): void };
-}) {
-  const DEFAULT_SIZE = 2;
+export default function TopBar(props: { name: string }) {
   const styles = useStyles();
-  const { name, sizeUpdate } = props;
-  const [sizeMultiplier, setSizeMultiplier] = React.useState(DEFAULT_SIZE);
+  const { name } = props;
+  const dispatch = useDispatch();
+  const sizeMultiplier = useSelector<State, number>(
+    (state) => state.elementSize.value
+  );
 
   const updateSize = (_: unknown, value: number | number[]) => {
-    setSizeMultiplier(value as number);
-    if (sizeUpdate) {
-      sizeUpdate(value as number);
-    }
+    dispatch({ type: updateElementSize.type, payload: value as number });
   };
   return (
     <div>
@@ -67,7 +66,3 @@ export default function TopBar(props: {
     </div>
   );
 }
-
-TopBar.defaultProps = {
-  sizeUpdate: () => {},
-};
