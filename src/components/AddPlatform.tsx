@@ -24,7 +24,11 @@ export default function AddPlatform() {
   };
 
   const addPlatform = async () => {
-    await Platform.create({ name, path, arguments: args });
+    await Platform.create({
+      name,
+      path: path || undefined,
+      arguments: args || undefined,
+    });
     handleClose();
   };
 

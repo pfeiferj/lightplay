@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
-
 import createMuiTheme, {
   ThemeOptions,
 } from '@material-ui/core/styles/createMuiTheme';
+
 import Library from './components/Library';
 import themeDetails from './theme.json';
 
